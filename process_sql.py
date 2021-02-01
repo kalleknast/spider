@@ -169,6 +169,7 @@ def parse_col(toks, start_idx, tables_with_alias, schema, default_tables=None):
         :returns next idx, column id
     """
     tok = toks[start_idx]
+
     if tok == "*":
         return start_idx + 1, schema.idMap[tok]
 
@@ -192,6 +193,8 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
     """
         :returns next idx, (agg_op id, col_id)
     """
+
+
     idx = start_idx
     len_ = len(toks)
     isBlock = False
@@ -203,6 +206,7 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
     if toks[idx] in AGG_OPS:
         agg_id = AGG_OPS.index(toks[idx])
         idx += 1
+
         assert idx < len_ and toks[idx] == '('
         idx += 1
         if toks[idx] == "distinct":
@@ -552,7 +556,7 @@ def get_sql(schema, query):
     tables_with_alias = get_tables_with_alias(schema.schema, toks)
     _, sql = parse_sql(toks, 0, tables_with_alias, schema)
 
-    return sql
+    return sql, toks
 
 
 def skip_semicolon(toks, start_idx):
